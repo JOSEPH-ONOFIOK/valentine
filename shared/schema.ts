@@ -1,18 +1,28 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+// === TABLE DEFINITIONS ===
+export const valentineResponses = pgTable("valentine_responses", {
+  id: serial("id").primaryKey(),
+  responderName: text("responder_name").default("My Valentine"),
+  accepted: boolean("accepted").notNull(),
+  message: text("message"), // Optional message back
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+// === BASE SCHEMAS ===
+export const insertResponseSchema = createInsertSchema(valentineResponses).omit({ 
+  id: true, 
+  createdAt: true 
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+// === EXPLICIT API CONTRACT TYPES ===
+export type ValentineResponse = typeof valentineResponses.$inferSelect;
+export type InsertValentineResponse = z.infer<typeof insertResponseSchema>;
+
+// Request types
+export type CreateResponseRequest = InsertValentineResponse;
+
+// Response types
+export type ValentineResponseResult = ValentineResponse;
