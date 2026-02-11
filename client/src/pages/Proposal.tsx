@@ -37,6 +37,15 @@ const journeySteps = [
   }
 ];
 
+const memoryPhotos = [
+  "/images/memory_1.jpg",
+  "/images/memory_2.jpg",
+  "/images/memory_3.jpg",
+  "/images/memory_4.jpg",
+  "/images/memory_5.jpg",
+  "/images/memory_6.jpg",
+];
+
 export default function Proposal() {
   const [phase, setPhase] = useState<"envelope" | "journey" | "question" | "success">("envelope");
   const [journeyIndex, setJourneyIndex] = useState(0);
@@ -253,9 +262,9 @@ export default function Proposal() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", bounce: 0.5 }}
-            className="w-full max-w-md z-10"
+            className="w-full max-w-2xl z-10"
           >
-            <Card className="border-none shadow-2xl bg-white/90 backdrop-blur-sm rounded-[2rem]">
+            <Card className="border-none shadow-2xl bg-white/90 backdrop-blur-sm rounded-[2rem] overflow-hidden">
               <CardContent className="pt-12 px-8 pb-12 text-center">
                 <motion.div
                   initial={{ scale: 0 }}
@@ -269,9 +278,32 @@ export default function Proposal() {
                 <h2 className="text-4xl text-primary mb-4">
                   Yay! I knew it! ❤️
                 </h2>
-                <p className="text-muted-foreground mb-12 text-lg italic handwritten">
+                <p className="text-muted-foreground mb-8 text-lg italic handwritten">
                   "You've made me the happiest person in the world."
                 </p>
+
+                {/* Photo Gallery Added Here */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+                  {memoryPhotos.map((photo, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 + index * 0.1 }}
+                      className="aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-md hover:scale-105 transition-transform cursor-pointer"
+                    >
+                      <img 
+                        src={photo} 
+                        alt={`Memory ${index + 1}`} 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback if stock images haven't loaded yet
+                          (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${index + 10}/400/400`;
+                        }}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
 
                 {respondMutation.isSuccess ? (
                   <motion.div
@@ -288,7 +320,7 @@ export default function Proposal() {
                   </motion.div>
                 ) : (
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 text-left">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 text-left max-w-md mx-auto">
                       <FormField
                         control={form.control}
                         name="responderName"
