@@ -8,46 +8,148 @@ import {
   Check,
   Mail,
   ArrowRight,
-  Camera,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const getRandomOffset = (current: number) => {
-  const direction = Math.random() > 0.5 ? 1 : -1;
-  const distance = Math.floor(Math.random() * 100) + 50;
-  return current + distance * direction;
+/* ---------------- Utils ---------------- */
+
+// Prevent No button from escaping screen
+const getSafeOffset = () => {
+  const maxX = window.innerWidth / 2 - 100;
+  const maxY = window.innerHeight / 2 - 120;
+
+  return {
+    x: (Math.random() - 0.5) * maxX,
+    y: (Math.random() - 0.5) * maxY,
+  };
 };
+
+// Tiny heart burst
+const tinyHearts = () => {
+  confetti({
+    particleCount: 20,
+    spread: 70,
+    origin: { y: 0.7 },
+  });
+};
+
+/* ---------------- Journey Steps ---------------- */
 
 const journeySteps = [
   {
-    title: "Where it all began...",
-    content:
-      "From the moment we first met, I knew there was something special about you. Every smile, every laugh, and every moment we've shared has been a gift.",
-    icon: Sparkles,
+    title: "Every Love Story Has a Beginning...",
+    buttonText: "Our story continues... 💌",
+    content: (
+      <>
+        <p className="font-montserrat">Ours started in the most unexpected place</p>
+        <p className="italic text-primary font-medium mt-2 font-montserrat">
+          at manna, both of us just trying to get noodles.
+        </p>
+        <p className="mt-4 font-montserrat">
+          I didn’t know it then, but that moment would change everything.
+        </p>
+        <p className="font-montserrat">I started a conversation…</p>
+        <p className="font-montserrat">And I haven’t wanted to stop since.</p>
+      </>
+    ),
   },
   {
-    title: "The Little Things",
-    content:
-      "It's the way you look at me, the way you make me feel safe, and the way you always know how to brighten my day. These small moments are my favorite memories.",
-    icon: Heart,
+    title: "Something Different",
+    buttonText: "Keep going... ",
+    content: (
+      <>
+        <p className="font-montserrat">
+          I'm not gonna lie and say it was love at first sight or anything like that.
+        </p>
+        <p className="font-montserrat">
+          But what did I know?{" "}
+          <span className="italic text-primary font-medium">
+            you were different
+          </span>.
+        </p>
+        <p className="font-montserrat">
+          There was something about the way you carried yourself, the way you talked
+        </p>
+        <p className="font-montserrat">
+          Something that made me want to keep the conversation going.
+        </p>
+        <p className="font-montserrat">
+          You weren't like everyone else. You were{" "}
+          <span className="italic text-primary font-medium">unique</span>.
+        </p>
+        <p className="font-montserrat">
+          And that curiosity? That interest? It only grew the more I got to know you.
+        </p>
+      </>
+    ),
   },
+  { title: "Our Favorite Moments", buttonText: "There's more... ", content: ( <div className="space-y-4 font-montserrat"> <div className="bg-white rounded-2xl p-5 shadow-md animate-fadeInUp"> <h3 className="font-semibold text-primary mb-1 font-cormorant"> That First Day </h3> <p>That random morning when we both wanted noodles and ended up wanting so much more. I can still remember how easy it felt to talk with you. The beginning of something I didn't see coming. </p> </div> <div className="bg-white rounded-2xl p-5 shadow-md animate-fadeInUp delay-150"> <h3 className="font-semibold text-primary mb-1 font-cormorant"> Our First Kiss </h3> <p>The moment that made my heart race and the world go quiet.I remember exactly how it felt; nervous, the butterflies, the smile i couldn't wipe from off my face after. When I knew this wasn't just in my head anymore, it was real for both of us. </p> </div> <div className="bg-white rounded-2xl p-5 shadow-md animate-fadeInUp delay-300"> <h3 className="font-semibold text-primary mb-1 font-cormorant"> The play at Boja </h3> <p>Watching the play, but honestly? I was more aware of you than anything on stage. All I could think about was how close you were. We weren't just watching the play, we were caught in our own moment. The tension building with every passing moment, Wanting nothing more than to kiss you but knowing we had to wait. The tension was driving me crazy</p> </div> </div> ), },
   {
-    title: "My Heart's Letter",
-    content:
-      "You are my best friend, my confidant, and my home. I am so lucky to have you in my life, and I can't wait to see what the future holds for us together.",
-    icon: Mail,
-  },
+  title: "What I Love About You",
+  buttonText: "Almost there... ",
+  content: (
+    <ul className="space-y-3 text-left font-montserrat">
+      {[
+        "Your thoughtfulness isn't just just sweet gestures, its the way you pay attention to who I am and what matters to me ",
+        "How naturally affectionate you are, like loving me is the easiest thing in the world. It makes me feel safe to love you back",
+        "You look at me like I'm etraordinary, and somehow, when I'm with you, I actually believe it",
+        "When you're trying so hard not to laugh at my jokes wehn you're mad, but i can see it breaking through. That's when I know i've made your day a little brighter",
+        "Everything about the way you look takes my breathe away, I could spend forever just admiring you",
+        "When you put on that 'I don't need your attention' act but I know deep down you're loving every second; your playful side is irresistible ",
+      ].map((item, i) => (
+        <li
+          key={i}
+          className="bg-white p-4 rounded-xl shadow-sm flex gap-2 items-center animate-slideIn"
+          style={{ animationDelay: `${i * 80}ms` }}
+        >
+          💕 <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  ),
+},
+{
+  title: "Every Day With You",
+  buttonText: "I feel it too 💞",
+  content: (
+    <>
+      <p className="font-montserrat">
+        These past months have shown me something special—
+      </p>
+      <p className="italic text-primary font-medium mt-2 font-montserrat">
+        that the ordinary can become extraordinary when you're with the right person.
+      </p>
+      <p className="font-montserrat">
+        You've brought so much joy, laughter, and light into my life.
+      </p>
+      <p className="font-montserrat">
+        Every conversation, every moment, every silly little thing we do together...
+      </p>
+      <p className="font-montserrat">
+        It all matters because its with you.
+      </p>
+      <p className="font-montserrat">
+        And I find myself looking forward to all the moments we haven't had yet.
+      </p>
+      <p className="font-montserrat">
+        All the laughs, the adventures, the quiet times, and everything in between.
+      </p>
+    </>
+  ),
+}
+,
 ];
 
+/* ---------------- Gallery ---------------- */
+
 const memoryPhotos = [
-  "/images/memory_1.jpg",
-  "/images/memory_2.jpg",
-  "/images/memory_3.jpg",
-  "/images/memory_4.jpg",
-  "/images/memory_5.jpg",
-  "/images/memory_6.jpg",
+  "/images/memory_1.jpeg",
+  "/images/memory_2.jpeg",
+  "/images/memory_3.jpeg",
+  "/images/memory_4.jpeg",
+  "/images/memory_5.jpeg",
+  "/images/memory_6.jpeg",
 ];
 
 export default function Proposal() {
@@ -58,20 +160,12 @@ export default function Proposal() {
   const [journeyIndex, setJourneyIndex] = useState(0);
   const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
   const [yesScale, setYesScale] = useState(1);
-  const [noHoverCount, setNoHoverCount] = useState(0);
 
-  const handleNoHover = () => {
-    setNoButtonPos({
-      x: getRandomOffset(noButtonPos.x),
-      y: getRandomOffset(noButtonPos.y),
-    });
-    setYesScale((prev) => Math.min(prev + 0.15, 3));
-    setNoHoverCount((prev) => prev + 1);
-  };
-
-  const handleYesClick = () => {
-    setPhase("success");
-    triggerConfetti();
+  const handleNoMove = () => {
+    const newPos = getSafeOffset();
+    setNoButtonPos(newPos);
+    setYesScale((prev) => Math.min(prev + 0.15, 2.5));
+    tinyHearts();
   };
 
   const triggerConfetti = () => {
@@ -79,66 +173,17 @@ export default function Proposal() {
     const end = Date.now() + duration;
 
     const frame = () => {
-      confetti({
-        particleCount: 2,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ["#ff6b8b", "#ffb6c1", "#ffffff"],
-      });
-
-      confetti({
-        particleCount: 2,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ["#ff6b8b", "#ffb6c1", "#ffffff"],
-      });
-
+      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
+      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
       if (Date.now() < end) requestAnimationFrame(frame);
     };
 
     frame();
   };
 
-  const nextJourneyStep = () => {
-    if (journeyIndex < journeySteps.length - 1) {
-      setJourneyIndex(journeyIndex + 1);
-    } else {
-      setPhase("question");
-    }
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 overflow-hidden relative bg-gradient-to-br from-pink-50 to-red-50">
-      {/* Floating Hearts Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-primary/10"
-            initial={{
-              x: Math.random() * 100 + "%",
-              y: "110vh",
-              scale: Math.random() * 0.5 + 0.5,
-              rotate: Math.random() * 360,
-            }}
-            animate={{ y: "-10vh", rotate: Math.random() * 360 }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear",
-              delay: Math.random() * 10,
-            }}
-          >
-            <Heart
-              size={Math.random() * 40 + 20}
-              fill="currentColor"
-            />
-          </motion.div>
-        ))}
-      </div>
-
+    <div className="min-h-screen flex items-center justify-center p-4 overflow-hidden relative bg-gradient-to-br from-pink-50 to-red-50 font-montserrat">
+      
       <AnimatePresence mode="wait">
         {/* Envelope */}
         {phase === "envelope" && (
@@ -146,30 +191,16 @@ export default function Proposal() {
             key="envelope"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.2, rotate: 10 }}
-            className="text-center z-10 cursor-pointer group"
+            exit={{ opacity: 0 }}
+            className="text-center z-10 cursor-pointer"
             onClick={() => setPhase("journey")}
           >
-            <motion.div
-              className="relative mb-8"
-              animate={{ y: [0, -20, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 2,
-                ease: "easeInOut",
-              }}
-            >
-              <div className="w-64 h-64 bg-white rounded-3xl shadow-2xl flex items-center justify-center border-4 border-primary/20 group-hover:border-primary/40 transition-colors">
-                <Mail className="w-32 h-32 text-primary group-hover:scale-110 transition-transform" />
-              </div>
-            </motion.div>
-
-            <h1 className="text-4xl text-primary mb-4">
+            <div className="w-56 h-56 md:w-64 md:h-64 bg-white rounded-3xl shadow-2xl flex items-center justify-center">
+              <Mail className="w-24 h-24 md:w-32 md:h-32 text-primary" />
+            </div>
+            <h1 className="text-3xl md:text-4xl text-primary mt-6 font-cormorant">
               Open here for a surprise...
             </h1>
-            <p className="text-muted-foreground text-lg">
-              Click to reveal my heart
-            </p>
           </motion.div>
         )}
 
@@ -177,39 +208,37 @@ export default function Proposal() {
         {phase === "journey" && (
           <motion.div
             key={`journey-${journeyIndex}`}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            className="w-full max-w-2xl text-center z-10 p-8"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -40 }}
+            className="w-full max-w-2xl text-center z-10 p-6"
           >
-            <Card className="border-none bg-white/60 backdrop-blur-md shadow-2xl rounded-[2rem]">
-              <CardContent className="pt-12 pb-8 px-8 flex flex-col items-center">
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-8">
-                  {(() => {
-                    const StepIcon =
-                      journeySteps[journeyIndex].icon;
-                    return (
-                      <StepIcon className="w-10 h-10 text-primary" />
-                    );
-                  })()}
-                </div>
-
-                <h2 className="text-4xl text-primary mb-6">
+            <Card className="bg-white/80 backdrop-blur-xl shadow-2xl rounded-[2.5rem]">
+              <CardContent className="pt-12 pb-10 px-8">
+                <h2 className="text-4xl md:text-5xl text-primary mb-8 font-cormorant">
                   {journeySteps[journeyIndex].title}
                 </h2>
 
-                <p className="text-xl leading-relaxed text-foreground/80 mb-12 italic">
-                  "{journeySteps[journeyIndex].content}"
-                </p>
+                <div className="text-lg md:text-xl leading-relaxed text-foreground/80 space-y-3 italic">
+                  {journeySteps[journeyIndex].content}
+                </div>
 
                 <Button
-                  onClick={nextJourneyStep}
-                  className="rounded-full px-10 h-14 text-lg"
+                  onClick={() => {
+                    tinyHearts();
+                    if (journeyIndex < journeySteps.length - 1) {
+                      setJourneyIndex((prev) => prev + 1);
+                    } else {
+                      setPhase("question");
+                    }
+                  }}
+                  className="mt-10 
+                  px-6 h-11 text-sm
+                  md:px-10 md:h-14 md:text-lg
+                  rounded-full"
                 >
-                  {journeyIndex === journeySteps.length - 1
-                    ? "The Final Question..."
-                    : "Keep Going..."}
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  {journeySteps[journeyIndex].buttonText}
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
             </Card>
@@ -218,38 +247,46 @@ export default function Proposal() {
 
         {/* Question */}
         {phase === "question" && (
-          <motion.div
-            key="proposal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center z-10"
-          >
-            <h1 className="text-5xl text-primary font-bold mb-10">
+          <motion.div key="proposal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center z-10">
+            <h1 className="text-4xl md:text-5xl text-primary mb-10 font-cormorant">
               Will you be my Valentine?
             </h1>
 
-            <div className="flex items-center justify-center gap-6 relative h-32">
+            <div className="relative h-40 flex items-center justify-center gap-6">
+
+              {/* YES */}
               <motion.button
-                className="bg-primary text-white px-8 py-4 rounded-full font-bold text-xl"
-                style={{ scale: yesScale }}
-                whileHover={{ scale: yesScale * 1.1 }}
-                onClick={handleYesClick}
+                className="bg-primary text-white 
+                px-6 py-3 text-lg
+                md:px-8 md:py-4 md:text-xl
+                rounded-full font-bold"
+                animate={{ scale: yesScale }}
+                transition={{ type: "spring", stiffness: 300 }}
+                onClick={() => {
+                  triggerConfetti();
+                  setPhase("success");
+                }}
               >
                 YES ❤️
               </motion.button>
 
+              {/* NO */}
               <motion.button
-                className="bg-muted px-8 py-4 rounded-full font-bold text-xl absolute"
-                style={{
-                  x: noButtonPos.x,
-                  y: noButtonPos.y,
-                }}
+                className="bg-muted 
+                px-6 py-3 text-lg
+                md:px-8 md:py-4 md:text-xl
+                rounded-full font-bold absolute"
+                onMouseEnter={handleNoMove}
+                onClick={handleNoMove}
                 animate={{
                   x: noButtonPos.x,
                   y: noButtonPos.y,
                 }}
-                onMouseEnter={handleNoHover}
-                onClick={handleNoHover}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 12,
+                }}
               >
                 No
               </motion.button>
@@ -265,45 +302,33 @@ export default function Proposal() {
             animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-2xl z-10"
           >
-            <Card className="border-none shadow-2xl bg-white/90 rounded-[2rem]">
+            <Card className="shadow-2xl bg-white rounded-[2rem]">
               <CardContent className="pt-12 px-8 pb-12 text-center">
-                <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <Check className="w-12 h-12 text-green-600" />
-                </div>
-
-                <h2 className="text-4xl text-primary mb-6">
+               
+                <h2 className="text-3xl md:text-4xl text-primary mb-4 font-cormorant">
                   Yay! I knew it! ❤️
                 </h2>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
                   {memoryPhotos.map((photo, index) => (
-                    <div
-                      key={index}
-                      className="aspect-square rounded-2xl overflow-hidden"
-                    >
+                    <div key={index} className="aspect-square rounded-2xl overflow-hidden">
                       <img
                         src={photo}
                         alt={`Memory ${index + 1}`}
                         className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            `https://picsum.photos/seed/${index}/400/400`;
-                        }}
                       />
                     </div>
                   ))}
                 </div>
 
-                <div className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm">
-                  <Camera size={18} className="text-primary" />
-                  <p className="text-sm text-muted-foreground">
-                    Screenshot this and send it to me!
-                  </p>
-                </div>
+                <p className="text-lg">
+                  Here's to all our memories and all the ones we'll make together 💕
+                </p>
               </CardContent>
             </Card>
           </motion.div>
         )}
+
       </AnimatePresence>
     </div>
   );
