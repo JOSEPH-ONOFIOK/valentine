@@ -111,7 +111,7 @@ const journeySteps = [
 },
 {
   title: "Every Day With You",
-  buttonText: "I feel it too 💞",
+  buttonText: "There's something I want to ask you...",
   content: (
     <>
       <p className="font-montserrat">
